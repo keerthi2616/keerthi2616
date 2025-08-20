@@ -3,9 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Demo</title>
+    <style>
+        .container{
+            display:grid;
+            grid-row: 10% 80% 10%;
+            grid-column: 35% 30% 35%;
+            height: 100vh;
+        }
+        .top{
+            height: 10vh;
+            grid-row: 1/2;
+            grid-column: 1/4;
+            background-color: aqua;
+        }
+        .lt{
+            height: 80vh;
+            grid-row: 2/3;
+            grid-column: 1/2;
+            background-color: blueviolt;
+        }
+        .main{
+            height: 80vh;
+            grid-row: 2/3;
+            grid-column: 2/3;
+            background-color: orangered;
+        }
+        .rt{
+            height: 80vh;
+            grid-row: 2/3;
+            grid-column: 3/4;
+            background-color: green;
+        }
+        .ft{
+            height: 10vh;
+            grid-row: 3/4;
+            grid-column: 1/4;
+            background-color: yellowgreen;
+        }
+    </style>
 </head>
 <body>
-    <div class=""
+    <div class="container">
+        <div class="top" >Header</div>
+        <div class="lt"> Left side bar> </div>
+        <div class="main">main</div>
+        <div class="rt">right side bar</div>
+        <div class="ft">footer</div>
+    </div>
+    
 </body>
 </html>

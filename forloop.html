@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        document.write("<h2>2. for....in Loop</h2>");
+        for(let index in numbers) {
+            document.write("Index" + index + " = " + numbers[index] + "<br>"); 
+        }
+        document.write("<br>");
+        document.write("<h2>3. for....of Loop</h2>");
+        for (let value of numbers) {
+            document.write("Value = " + value + "<br>");
+        }
+        document.write("<br>");
+        document.write("<h2>4. forEach() Method</h2>");
+        numbers.forEach(function(value, index) {
+document.write("Index " + index + " = " + value + "<br>");
+        });
+        document.write("<br>");
+        let student = { name: "john", age: 23, grade: "A"};
+        document.write("<h2>5. for....in with Object</h2>");
+        for(let key in student) {
+            document.write(key + " ; " + student[key] + "<br>"); 
+        }
+    </script>
+</body>
+</html>

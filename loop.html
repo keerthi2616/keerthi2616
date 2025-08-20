@@ -1,0 +1,84 @@
+ <!DOCTYPE html>
+<html>
+<head>
+    <title>JavaScript Loops & Conditionals</title>
+</head>
+<body>
+    <h1>JavaScript Loops & Conditional Statements</h1>
+    
+    <script>
+        // ====== CONDITIONAL STATEMENTS ======
+        document.write("<h2>1. if Statement</h2>");
+        let num = 10;
+        if (num > 0) {
+            document.write(num + " is positive.<br><br>");
+        }
+        document.write("<h2>2. if-else Statement</h2>");
+        let age = 16;
+        if (age >= 18) {
+            document.write("You are eligible to vote.<br><br>");
+        } else {
+            document.write("You are NOT eligible to vote.<br><br>");
+        }
+
+        document.write("<h2>3. if-else-if Ladder</h2>");
+        let marks = 78;
+        if (marks >= 90) {
+            document.write("Grade: A+<br><br>");
+        } else if (marks >= 75) {
+            document.write("Grade: A<br><br>");
+        } else if (marks >= 50) {
+            document.write("Grade: B<br><br>");
+        } else {
+            document.write("Grade: Fail<br><br>");
+        }
+
+        document.write("<h2>4. switch Statement</h2>");
+        let day = 3;
+        switch(day) {
+            case 1:
+                document.write("Monday<br><br>");
+                break;
+            case 2:
+                document.write("Tuesday<br><br>");
+                break;
+            case 3:
+                document.write("Wednesday<br><br>");
+                break;
+            default:
+                document.write("Invalid day<br><br>");
+        }
+
+        // ====== LOOPING STATEMENTS ======
+        document.write("<h2>5. for Loop</h2>");
+        for (let i = 1; i <= 5; i++) {
+            document.write("i = " + i + "<br>");
+        }
+        document.write("<br>");
+
+        document.write("<h2>6. while Loop</h2>");
+        let count = 1;
+        while (count <= 5) {
+            document.write("count = " + count + "<br>");
+            count++;
+        }
+        document.write("<br>");
+
+        document.write("<h2>7. do-while Loop</h2>");
+        let n = 1;
+        do {
+            document.write("n = " + n + "<br>");
+            n++;
+        } while (n <= 5);
+        document.write("<br>");
+
+        document.write("<h2>8. Nested for Loops (Multiplication Table 3x3)</h2>");
+        for (let row = 1; row <= 3; row++) {
+            for (let col = 1; col <= 3; col++) {
+                document.write((row * col) + " ");
+            }
+            document.write("<br>");
+        }
+    </script>
+</body>
+</html>
