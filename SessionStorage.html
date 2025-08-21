@@ -1,0 +1,37 @@
+sessionstorage.html                                                                              <!DOCTYPE html>
+<html>
+<head>
+  <title>Session Storage Simple Example</title>
+</head>
+<body>
+  <h2>Welcome Page (Session Storage)</h2>
+
+  <input type="text" id="username" placeholder="Enter your name">
+  <button onclick="saveName()">Save Name</button>
+
+  <p id="greeting"></p>
+
+  <script>
+    // Show saved name when page loads
+    window.onload = function() {
+      let savedName = sessionStorage.getItem("username");
+      if (savedName) {
+        document.getElementById("greeting").textContent = "Hello, " + savedName ;
+      }
+    };
+
+    function saveName() {
+      let name = document.getElementById("username").value;
+      if (name === "") {
+        alert("Please enter your name!");
+        return;
+      }
+
+      // Save to sessionStorage
+      sessionStorage.setItem("username", name);
+
+      document.getElementById("greeting").textContent = "Hello, " + name ;
+    }
+  </script>
+</body>
+</html>
