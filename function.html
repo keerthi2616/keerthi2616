@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JavaScript Function Types Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    h2 {
+      color: #2c3e50;
+    }
+    button {
+      margin: 5px;
+      padding: 10px;
+      border: none;
+      background: #4CAF50;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    #output {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background: #f9f9f9;
+      min-height: 100px;
+      white-space: pre-line;
+    }
+  </style>
+</head>
+<body>
+  <h2>JavaScript Function Types Demo</h2>
+  
+  <button onclick="runDeclaration()">Function Declaration</button>
+  <button onclick="runExpression()">Function Expression</button>
+  <button onclick="runArrow()">Arrow Function</button>
+  <button onclick="runAnonymous()">Anonymous Function</button>
+  <button onclick="runIIFE()">IIFE</button>
+  <button onclick="runConstructor()">Constructor Function</button>
+  <button onclick="runGenerator()">Generator Function</button>
+  <button onclick="runAsync()">Async Function</button>
+
+  <div id="output">Output will appear here...</div>
+
+  <script>
+    const outputDiv = document.getElementById("output");
+    function show(msg) {
+      outputDiv.innerText += msg + "\n";
+    }
+    function clearOutput() {
+      outputDiv.innerText = "";
+    }
+
+    // 1. Function Declaration
+    function calculateTotal(price, tax) {
+      return price + (price * tax);
+    }
+    function runDeclaration() {
+      clearOutput();
+      show("Total = " + calculateTotal(100, 0.05));
+    }
+
+    // 2. Function Expression
+    const greetUser = function(name) {
+      return Welcome, ${name}!;
+    };
+    function runExpression() {
+      clearOutput();
+      show(greetUser("Sridevi"));
+    }
+
+    // 3. Arrow Function
+    const tasks = ["Work", "Sleep", "Exercise", "Study"];
+    const shortTasks = tasks.filter(task => task.length <= 5);
+    function runArrow() {
+      clearOutput();
+      show("Short Tasks: " + shortTasks.join(", "));
+    }
+
+    // 4. Anonymous Function
+    function runAnonymous() {
+      clearOutput();
+      setTimeout(function() {
+        show("Reminder: Take a break!");
+      }, 1000);
+    }
+
+    // 5. IIFE
+    function runIIFE() {
+      clearOutput();
+      (function() {
+        const secretToken = "abc123";
+        show("IIFE executed securely, token hidden!");
+      })();
+    }
+
+    // 6. Constructor Function
+    function User(name, role) {
+      this.name = name;
+      this.role = role;
+    }
+    function runConstructor() {
+      clearOutput();
+      const user1 = new User("Sridevi", "Admin");
+      show(user1.name + " - " + user1.role);
+    }
+
+    // 7. Generator Function
+    function* getPages() {
+      yield "Page 1: Home";
+      yield "Page 2: About";
+      yield "Page 3: Contact";
+    }
+    function runGenerator() {
+      clearOutput();
+      const pages = getPages();
+      show(pages.next().value);
+      show(pages.next().value);
+      show(pages.next().value);
+    }
+
+    // 8. Async Function
+    async function fetchWeather() {
+      return "Weather: Sunny 28°C";
+    }
+    function runAsync() {
+      clearOutput();
+      fetchWeather().then(result => show(result));
+    }
+  </script>
+</body>
+</html>

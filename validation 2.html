@@ -1,0 +1,156 @@
+                                                    <!DOCTYPE html>
+<html>
+<head>
+  <title>Form with Real-Time Validation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    form {
+      max-width: 500px;
+      margin: auto;
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .btns input {
+      width: auto;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+    .error {
+      color: red;
+      font-size: 12px;
+      display: none;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2 style="text-align:center;">Form with Real-Time Inline Validation</h2>
+
+  <form id="demoForm" novalidate>
+    <!-- Name -->
+    <label>Name:</label>
+    <input type="text" id="name" placeholder="Enter your name" required minlength="3">
+    <span class="error" id="nameError">Name must be at least 3 characters</span>
+
+    <!-- Password -->
+    <label>Password:</label>
+    <input type="password" id="password" placeholder="Enter password" required minlength="6">
+    <span class="error" id="passwordError">Password must be at least 6 characters</span>
+
+    <!-- Email -->
+    <label>Email:</label>
+    <input type="email" id="email" placeholder="Enter email" required>
+    <span class="error" id="emailError">Please enter a valid email</span>
+
+    <!-- Age -->
+    <label>Age:</label>
+    <input type="number" id="age" min="1" max="120" required>
+    <span class="error" id="ageError">Age must be between 1 and 120</span>
+
+    <!-- Phone -->
+    <label>Phone:</label>
+    <input type="tel" id="phone" placeholder="123-456-7890" pattern="^\d{3}-\d{3}-\d{4}$" required>
+    <span class="error" id="phoneError">Phone must be in format 123-456-7890</span>
+
+    <!-- Website -->
+    <label>Website:</label>
+    <input type="url" id="website" placeholder="https://example.com" required>
+    <span class="error" id="websiteError">Please enter a valid URL</span>
+
+    <!-- Country -->
+    <label>Country:</label>
+    <select id="country" required>
+      <option value="">-- Select Country --</option>
+      <option>India</option>
+      <option>USA</option>
+      <option>UK</option>
+      <option>Canada</option>
+    </select>
+    <span class="error" id="countryError">Please select a country</span>
+
+    <!-- Buttons -->
+    <div class="btns">
+      <input type="submit" value="Submit">
+      <input type="reset" value="Reset">
+    </div>
+  </form>
+
+  <script>
+    const form = document.getElementById("demoForm");
+
+    // reusable validation function
+    function validateField(field, errorId, validatorFn) {
+      const errorElement = document.getElementById(errorId);
+      if (!validatorFn(field.value)) {
+        errorElement.style.display = "block";
+        return false;
+      } else {
+        errorElement.style.display = "none";
+        return true;
+      }
+    }
+
+    // Real-time validation setup
+    document.getElementById("name").addEventListener("input", function() {
+      validateField(this, "nameError", value => value.trim().length >= 3);
+    });
+
+    document.getElementById("password").addEventListener("input", function() {
+      validateField(this, "passwordError", value => value.trim().length >= 6);
+    });
+
+    document.getElementById("email").addEventListener("input", function() {
+      validateField(this, "emailError", value => this.checkValidity());
+    });
+
+    document.getElementById("age").addEventListener("input", function() {
+      validateField(this, "ageError", value => value >= 1 && value <= 120);
+    });
+
+    document.getElementById("phone").addEventListener("input", function() {
+      const phonePattern = /^\d{3}-\d{3}-\d{4}$/;
+      validateField(this, "phoneError", value => phonePattern.test(value));
+    });
+document.getElementById("website").addEventListener("input", function() {
+      validateField(this, "websiteError", value => this.checkValidity());
+    });
+
+    document.getElementById("country").addEventListener("change", function() {
+      validateField(this, "countryError", value => value !== "");
+    });
+
+    // Final check on submit
+    form.addEventListener("submit", function(event) {
+      let valid = true;
+      valid &= validateField(name, "nameError", value => value.trim().length >= 3);
+      valid &= validateField(password, "passwordError", value => value.trim().length >= 6);
+      valid &= validateField(email, "emailError", value => email.checkValidity());
+      valid &= validateField(age, "ageError", value => age.value >= 1 && age.value <= 120);
+      valid &= validateField(phone, "phoneError", value => /^\d{3}-\d{3}-\d{4}$/.test(phone.value));
+      valid &= validateField(website, "websiteError", value => website.checkValidity());
+      valid &= validateField(country, "countryError", value => country.value !== "");
+
+      if (!valid) event.preventDefault();
+    });
+  </script>
+
+</body>
+</html>
