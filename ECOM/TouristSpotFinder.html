@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tourism Spot Finder 🌍</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0093E9 0%, #80D0C7 100%);
+      color: #333;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      color: white;
+      padding: 20px 0;
+      font-size: 2em;
+    }
+    .container {
+      background: white;
+      width: 90%;
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    input {
+      padding: 10px;
+      width: 60%;
+      border: 2px solid #0093E9;
+      border-radius: 8px;
+      font-size: 16px;
+      outline: none;
+    }
+    button {
+      padding: 10px 16px;
+      border: none;
+      background-color: #0093E9;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+    button:hover {
+      background-color: #007acc;
+    }
+    .results {
+      margin-top: 25px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+    }
+    .card {
+      background: #f7f9fa;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    }
+    .card h3 {
+      margin-top: 0;
+      color: #0093E9;
+    }
+    footer {
+      color: white;
+      margin-top: 30px;
+      font-size: 14px;
+      padding-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌍 Tourism Spot Finder</h1>
+  <div class="container">
+    <input type="text" id="city" placeholder="Enter city name (e.g. Delhi, Hyderabad)" />
+    <button onclick="findSpots()">Search</button>
+
+    <div id="status"></div>
+    <div id="results" class="results"></div>
+  </div>
+  <footer>Powered by Geoapify API</footer>
+
+ <script>
+  const API_KEY = "2ae4322a52a14eb398fd0e8444fe0448";
+
+  async function getCoordinates(city) {
+    const geoUrl = `https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(
+      city
+    )}&apiKey=${API_KEY}`;
+    const res = await fetch(geoUrl);
+    const data = await res.json();
+    if (data.features && data.features.length > 0) {
+      const props = data.features[0].properties;
+      return { lat: props.lat, lon: props.lon };
+    }
+    return null;
+  }
+
+  async function getPlaces(lat, lon) {
+    // Expanded categories and bigger radius (50 km)
+    const url = `https://api.geoapify.com/v2/places?categories=tourism,entertainment,catering,leisure,museum,heritage,park,attraction&filter=circle:${lon},${lat},50000&limit=40&apiKey=${API_KEY}`;
+    const res = await fetch(url);
+    if (!res.ok) {
+      console.error("Geoapify Places API error:", res.status);
+      return [];
+    }
+    const data = await res.json();
+    return data.features || [];
+  }
+
+  async function findSpots() {
+    const city = document.getElementById("city").value.trim();
+    const status = document.getElementById("status");
+    const results = document.getElementById("results");
+
+    if (!city) {
+      status.innerHTML = "⚠️ Please enter a city name.";
+      return;
+    }
+
+    status.innerHTML = "⏳ Finding city location...";
+    results.innerHTML = "";
+
+    const coords = await getCoordinates(city);
+    if (!coords) {
+      status.innerHTML = "❌ City not found. Try again.";
+      return;
+    }
+
+    const { lat, lon } = coords;
+    status.innerHTML = `🔍 Searching for tourist spots near ${city}...`;
+
+    const spots = await getPlaces(lat, lon);
+    if (!spots.length) {
+      status.innerHTML =
+        "⚠️ No tourist spots found. Try a nearby city or larger radius.";
+      return;
+    }
+
+    status.innerHTML = `✅ Found ${spots.length} spots near ${city}.`;
+
+    results.innerHTML = "";
+    spots.forEach((spot) => {
+      const name = spot.properties.name || "Unnamed place";
+      const category =
+        spot.properties.categories?.join(", ") || "Tourist location";
+      const address = spot.properties.formatted || "Address not available";
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `<h3>${name}</h3><p><strong>Type:</strong> ${category}</p><p>${address}</p>`;
+      results.appendChild(card);
+    });
+  }
+</script>
+
+</body>
+</html>
